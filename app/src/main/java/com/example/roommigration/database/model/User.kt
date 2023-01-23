@@ -1,5 +1,6 @@
 package com.example.roommigration.database.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

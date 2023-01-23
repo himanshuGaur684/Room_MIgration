@@ -1,12 +1,23 @@
 package com.example.roommigration.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
+import androidx.room.migration.AutoMigrationSpec
 import com.example.roommigration.database.model.User
 
-@Database(entities = [User::class], version = 1, exportSchema = true)
+@Database(
+    entities = [User::class], version = 4, exportSchema = true, autoMigrations = [
+        AutoMigration(
+            from = 1, to = 2,
+        ),
+        AutoMigration(
+            from = 2, to = 3, spec = MainDatabase.RenameAgeToCurrentAge::class
+        ),
+        AutoMigration(
+            from = 3, to = 4, spec = MainDatabase.DeleteAgeColumn::class
+        )
+    ]
+)
 abstract class MainDatabase : RoomDatabase() {
 
     companion object {
@@ -15,6 +26,12 @@ abstract class MainDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun getMainDao():MainDao
+    abstract fun getMainDao(): MainDao
+
+    @RenameColumn(tableName = "User", fromColumnName = "age", toColumnName = "current_age")
+    class RenameAgeToCurrentAge:AutoMigrationSpec
+
+    @DeleteColumn(tableName = "User", columnName = "current_age")
+    class DeleteAgeColumn : AutoMigrationSpec
 
 }
