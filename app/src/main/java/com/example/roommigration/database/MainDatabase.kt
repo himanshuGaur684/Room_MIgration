@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.roommigration.database.model.User
 
-@Database(entities = [User::class], version = 1, exportSchema = false)
+@Database(entities = [User::class], version = 1, exportSchema = true)
 abstract class MainDatabase : RoomDatabase() {
 
     companion object {
