@@ -47,6 +47,9 @@ fun MainScreen(viewModel: MainViewModel) {
     val name = remember {
         mutableStateOf("")
     }
+    val age = remember {
+        mutableStateOf("")
+    }
     val list = viewModel.list.value
     Column(
         modifier = Modifier
@@ -58,7 +61,7 @@ fun MainScreen(viewModel: MainViewModel) {
 
         list.forEach {
             Text(
-                text = "${it.id} ---> ${it.name}",
+                text = "${it.id} ---> ${it.name} ${it.age}",
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp),
@@ -68,11 +71,14 @@ fun MainScreen(viewModel: MainViewModel) {
 
         OutlinedTextField(value = name.value, onValueChange = { name.value = it })
         Spacer(modifier = Modifier.height(12.dp))
+        OutlinedTextField(value = age.value, onValueChange = { age.value = it })
+        Spacer(modifier = Modifier.height(12.dp))
         OutlinedButton(onClick = {
             viewModel.insertUser(
-                User(id = 0, name = name.value)
+                User(id = 0, name = name.value,age.value)
             )
             name.value = ""
+            age.value=""
         }) {
             Text(text = "Save User")
         }
